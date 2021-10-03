@@ -1,0 +1,23 @@
+version: '2'
+
+services:
+  hivemq:
+    restart: unless-stopped
+    image: hivemq/hivemq4:4.6.3
+    ports:
+      - "7777:8080"
+      - "1883:1883"
+    env_file:
+      - ./.env
+
+  node:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: etc/Dockerfile-node-dev
+    volumes:
+      - ./src:/app/src
+    ports:
+      - "8787:8080"
+    env_file:
+      - ./.env
